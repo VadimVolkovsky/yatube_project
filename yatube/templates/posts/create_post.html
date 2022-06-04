@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% block title %}
+  {% if is_edit %}
+    Редактировать запись
+  {% else %}
+    Добавить запись
+  {% endif %}
+{% endblock %}
+{% block content %}
+  {% include 'posts/includes/post_create_edit_form.html' %}
+{% endblock %}

@@ -1,37 +1,19 @@
-<!DOCTYPE html> <!-- Используется html 5 версии -->
-<html lang="ru"> <!-- Язык сайта - русский --> 
 {% extends 'base.html' %}
-  <head>  
-    {%block title%}
-    <title>{{ title }}</title>
-    {%endblock%}
-  </head>
-  <body>
-    <header>
-    </header>
-    {%block content%}
-    <main> 
-      <h3>{{ title }}</h3>
-      {% for post in posts %}
-        <ul>
-          <li>
-            Автор: {{ post.author.get_full_name }}
-          </li>
-          <li>
-            Дата публикации: {{ post.pub_date|date:"d E Y" }}
-          </li>
-        </ul>
-        <p>{{ post.text }}</p> 
-        {% if post.group.slug %}
-          <a href="{% url 'posts:group_list' post.group.slug %}">все записи группы</a>   
-        {% endif %}
-        {% if not forloop.last %}
-          <hr>
-        {% endif %}
-      {% endfor %}
-    </main>
-    {%endblock%}    
-    <footer>
-    </footer>
-  </body>
-</html>
+{% block title %}Последние обновления на сайте{% endblock %}
+{% block content %}
+  {% load cache %}
+  {% cache 20 index.page %}
+  <div class="container py-5">
+    <h3>Последние обновления на сайте:</h3>
+    {% include 'posts/includes/switcher.html' %}
+    {% for post in page_obj %}
+      {% include 'posts/includes/post_list.html' %}
+      {% if post.group.slug %}
+        <a href="{% url 'posts:group_list' post.group.slug %}">все записи группы {{ post.group.title }}</a>
+      {% endif %}
+      {% if not forloop.last %}<hr>{% endif %}
+    {% endfor %}
+  {% endcache %}
+  {% include 'posts/includes/paginator.html' %}
+</div>
+{% endblock %}

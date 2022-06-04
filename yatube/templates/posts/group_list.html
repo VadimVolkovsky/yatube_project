@@ -1,36 +1,14 @@
-<!DOCTYPE html> <!-- Используется html 5 версии -->
-<html lang="ru"> <!-- Язык сайта - русский -->
 {% extends 'base.html' %}
-  <head>    
-    <meta charset="utf-8"> <!-- Кодировка сайта -->
-    <!-- Сайт готов работать с мобильными устройствами -->
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <!-- Загружаем фав-иконки -->
-    <link rel="icon" href="img/fav/fav.ico" type="image">
-    <link rel="apple-touch-icon" sizes="180x180" href="img/fav/apple-touch-icon.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="img/fav/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="img/fav/favicon-16x16.png">
-    <meta name="msapplication-TileColor" content="#000">
-    <meta name="theme-color" content="#ffffff">
-    {%block title%}
-    <title> {{ title }} </title>
-    {%endblock%}
-  </head>
-  <body>
-    <header>
-    </header>
-    {% block content %}
-    <main>
-      <h3>{{ title }}: {{ group }}</h3>
-      {%for post in posts %}
-        <br>Автор: {{ post.author.get_full_name }},
-        <br> Дата публикации: {{ post.pub_date|date:"d E Y" }}
-      <p> {{ post.text|linebreaksbr }} </p>
+{% block title %}Записи сообщества: {{ group.title }}{% endblock %}
+{% block content %}
+  <div class="container py-5">
+    <h1>{{ group.title }}</h1>
+    <p>{{ group.description }}</p>
+    {% for post in page_obj %}
+      {% include 'posts/includes/post_list.html' %}
+      <a href="{% url 'posts:group_list' group.slug %}">все записи группы</a>
       {% if not forloop.last %}<hr>{% endif %}
-      {% endfor %}
-    </main>
-    {% endblock %}
-    <footer>   
-    </footer>
-  </body>
-</html>
+    {% endfor %}
+    {% include 'posts/includes/paginator.html' %}
+  </div>
+{% endblock %}

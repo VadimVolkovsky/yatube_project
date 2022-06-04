@@ -1,29 +1,39 @@
 from django.contrib import admin
-from .models import Post, Group
+
+from .models import Comment, Group, Post
 
 
 class PostAdmin(admin.ModelAdmin):
-    # Поля, которые должны отображаться в админке сайта:
     list_display = (
-    'pk',
-    'text',
-    'pub_date',
-    'author',
-    'group'
+        'pk',
+        'text',
+        'pub_date',
+        'author',
+        'group'
     )
-    # функция фильтрации по дате:
     list_filter = ('pub_date',)
-    # Выбор группы из списка:
     list_editable = ('group',)
-    # интерфейс для поиска по тексту постов:
     search_fields = ('text',)
-    # заглушка для всех колонок, где нет данных:
     empty_value_display = '-пусто-'
-    
-    # При регистрации модели Post источником 
-    # конфигурации для неё назначаем класс PostAdmin
-admin.site.register(Post, PostAdmin)
+
 
 class GroupAdmin(admin.ModelAdmin):
-    list_display = ('title', 'slug', 'description')
+    list_display = (
+        'title',
+        'slug',
+        'description'
+    )
+
+
+class CommentAdmin(admin.ModelAdmin):
+    list_display = (
+        'post',
+        'author',
+        'text',
+        'created'
+    )
+
+
+admin.site.register(Post, PostAdmin)
 admin.site.register(Group, GroupAdmin)
+admin.site.register(Comment, CommentAdmin)

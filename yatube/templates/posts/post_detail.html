@@ -1,0 +1,6 @@
+{% extends 'base.html' %}
+{% block title %}Пост {{ page_obj.text }}{% endblock %}
+{% block content %}
+  {% include 'posts/includes/post_detail_form.html' %}
+  {% include 'posts/includes/comments_form.html' %}
+{% endblock %}
