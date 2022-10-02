@@ -11,5 +11,5 @@ That would be a social network for bloggers or just people, where you can create
 ``` pip install -r requirements.txt ```
 - in folder with manage.py file run the command:
 ``` python manage.py runserver ```
-### Autor
+### Author
 Vadim Volkovsky
